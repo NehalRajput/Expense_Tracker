@@ -1,33 +1,31 @@
 <?php
-
 $config = require base_path('config.php');
 $db = new Core\Database($config['database']);
 
-// Validate inputs
-$expenseName = $_POST['expense_name'] ?? null;
-$amount = $_POST['amount'] ?? null;
-$groupId = $_POST['group_id'] ?? null;
-$expenseDate = $_POST['expense_date'] ?? null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $expenseName = $_POST['expense_name'] ?? '';
+    $amount = $_POST['amount'] ?? 0;
+    $expenseDate = $_POST['expense_date'] ?? date('Y-m-d');
+    $groupId = $_POST['group_id'] ?? null;
 
-if (!$expenseName || !$amount || !$groupId || !$expenseDate) {
-    die('All fields are required. Please check your input.');
+    if ($expenseName && $amount && $groupId) {
+        $db->query("INSERT INTO expenses (expense_name, amount, expense_date, group_id) 
+                    VALUES (:expense_name, :amount, :expense_date, :group_id)", [
+            'expense_name' => $expenseName,
+            'amount' => $amount,
+            'expense_date' => $expenseDate,
+            'group_id' => $groupId
+        ]);
+
+        header('Location: /expense');
+        exit();
+    }
 }
 
-// Fetch Group Name (Category) to ensure the group exists
-$category = $db->query('SELECT group_name FROM groups WHERE id = :id', [
-    'id' => $groupId
-])->findOrFail();
+$groups = $db->query("SELECT id, group_name FROM groups")->get();
 
-// Insert the expense into the database
-$db->query('INSERT INTO expenses (expense_name, amount, group_id, expense_date) 
-            VALUES (:expense_name, :amount, :group_id, :expense_date)', [
-    'expense_name' => $expenseName,
-    'amount' => $amount,
-    'group_id' => $groupId,
-    'expense_date' => $expenseDate
+view('expense/create.view.php', [
+    'groups' => $groups,
+    'errors' => []
 ]);
-
-// Redirect to Home
-header('Location: /');
-exit();
 ?>

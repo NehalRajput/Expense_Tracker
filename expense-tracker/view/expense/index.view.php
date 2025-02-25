@@ -39,15 +39,10 @@
                     disabled
                 />
             <?php else: ?>
-                <select
-                    id="group_id"
-                    name="group_id"
-                    class="w-full p-3 border border-[#2b6cb0] rounded-lg focus:ring-2 focus:ring-[#2c5282] mb-4"
-                    required
-                >
+                <select id="group-Name" name="group_id" class="w-full p-3 border border-[#2b6cb0] rounded-lg focus:ring-2 focus:ring-[#2c5282] mb-4" required>
                     <?php foreach ($groups as $group): ?>
-                        <option value="<?= $group['id'] ?>" style="background-color: #edf2f7; color: #2b6cb0;">
-                            <?= $group['group_name'] ?>
+                        <option value="<?= $group['id'] ?>">
+                            <?= htmlspecialchars($group['group_name']) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>

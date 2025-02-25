@@ -45,10 +45,7 @@ namespace core;
         foreach($this->routes as $route){
             if($route['uri'] === $uri && $route['method'] === strtoupper($method)){
 
-                //apply middleware
-                // if($route['middleware']){
-                //    Middleware::resolver($route['middleware']);
-                // }
+              
                 return require base_path($route['controller']);
                 
             }
@@ -57,8 +54,7 @@ namespace core;
   
     
 
-        // $this->abort(Response::NOT_FOUND);
-    }
+          }
 
     protected function abort($code = 404){
         http_response_code($code);
