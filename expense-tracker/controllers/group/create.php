@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-view('group/create.view.php', [
-    'errors' => []
-]);
+view('group/index.view.php', []);
+
 ?>

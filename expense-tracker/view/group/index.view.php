@@ -1,11 +1,16 @@
 <?php require base_path('view/partials/head.php'); ?>
 <?php require base_path('view/partials/banner.php'); ?>
 
-
 <!-- Group Form -->
 <div class="flex justify-center mt-10">
     <div class="bg-gray-900 p-6 rounded-xl shadow-lg w-11/12 max-w-md">
         <h2 class="text-xl font-semibold mb-4 text-white">Add Group</h2>
+        
+        <!-- Success message alert -->
+        <div id="successMessage" class="hidden bg-green-500 text-white p-3 rounded-lg mb-4">
+            Group created successfully!
+        </div>
+
         <form action="/group/create" method="POST" id="groupForm">
             <input type="text" id="id" name="id" value="group" hidden />
             <input
@@ -52,8 +57,32 @@
             errorClass: "text-red-500",
             errorElement: "span"
         });
+
+        // AJAX form submission
+        $('#groupForm').on('submit', function (e) {
+            e.preventDefault(); // Prevent form from submitting normally
+
+            if ($(this).valid()) { // Check if form is valid
+                $.ajax({
+                    url: '/group/create',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        $('#successMessage').removeClass('hidden').fadeIn(); // Show success message
+                        $('#groupForm')[0].reset(); // Reset form fields
+                        setTimeout(() => {
+                            $('#successMessage').fadeOut(); // Hide message after 3 seconds
+                        }, 3000);
+                    },
+                    error: function () {
+                        alert('An error occurred while creating the group.');
+                    }
+                });
+            }
+        });
     });
 </script>
 
-
 <?php require base_path('view/partials/footer.php'); ?>
+
+
