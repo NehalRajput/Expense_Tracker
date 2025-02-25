@@ -3,8 +3,43 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        let today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
-        $("#expense_date").val(today); // Set it as default value
+        let today = new Date().toISOString().split('T')[0]; 
+        $("#expense_date").val(today);
+
+        $("#expenseForm").submit(function (e) {
+            let isValid = true;
+
+            const expenseName = $("#expense_name").val().trim();
+            const amount = $("#amount").val().trim();
+            const groupId = $("#group-Name").val();
+            const expenseDate = $("#expense_date").val();
+
+            $(".error").remove();
+
+            if (expenseName === "") {
+                $("#expense_name").after('<span class="error text-red-500">Expense name is required</span>');
+                isValid = false;
+            }
+
+            if (amount === "" || isNaN(amount) || parseFloat(amount) <= 0) {
+                $("#amount").after('<span class="error text-red-500">Enter a valid amount</span>');
+                isValid = false;
+            }
+
+            if (groupId === null || groupId === "") {
+                $("#group-Name").after('<span class="error text-red-500">Please select a group</span>');
+                isValid = false;
+            }
+
+            if (expenseDate === "") {
+                $("#expense_date").after('<span class="error text-red-500">Expense date is required</span>');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
     });
 </script>
 

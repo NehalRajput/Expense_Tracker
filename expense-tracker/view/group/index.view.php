@@ -32,4 +32,28 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#groupForm").validate({
+            rules: {
+                group_name: {
+                    required: true,
+                    minlength: 3
+                }
+            },
+            messages: {
+                group_name: {
+                    required: "Please enter a group name",
+                    minlength: "Group name must be at least 3 characters long"
+                }
+            },
+            errorClass: "text-red-500",
+            errorElement: "span"
+        });
+    });
+</script>
+
+
 <?php require base_path('view/partials/footer.php'); ?>

@@ -2,21 +2,18 @@
 $config = require base_path('config.php');
 $db = new Core\Database($config['database']);
 
-// Debugging - Check posted data
-dd($_POST);
-
 // Update expense details
 $db->query("UPDATE expenses 
-            SET title = :title, 
+            SET expense_name = :expense_name, 
                 amount = :amount,  
                 group_id = :group_id, 
-                date = :date 
+                expense_date = :expense_date 
             WHERE id = :id", [
-    'title'    => $_POST['title'],
-    'amount'   => $_POST['amount'],
-    'group_id' => $_POST['group_id'],
-    'date'     => $_POST['date'],
-    'id'       => $_POST['id']
+    'expense_name' => $_POST['expense_name'],
+    'amount'       => $_POST['amount'],
+    'group_id'     => $_POST['group_id'],
+    'expense_date' => $_POST['expense_date'],
+    'id'           => $_POST['id']
 ]);
 
 // Redirect after update
