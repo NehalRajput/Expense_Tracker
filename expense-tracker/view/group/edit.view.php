@@ -24,6 +24,24 @@
                 error.insertAfter(element);
             }
         });
+
+        $('#groupForm').on('submit', function (e) {
+            e.preventDefault();
+
+            if ($(this).valid()) {
+                $.ajax({
+                    url: '/groups',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        $('#message').html('<div class="text-green-500 mt-4">Group updated successfully! ✅</div>');
+                    },
+                    error: function () {
+                        $('#message').html('<div class="text-red-500 mt-4">❌ An error occurred while updating the group.</div>');
+                    }
+                });
+            }
+        });
     });
 </script>
 
@@ -57,6 +75,7 @@
                 </button>
             </div>
         </form>
+        <div id="message"></div>
     </div>
 </div>
 

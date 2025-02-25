@@ -14,7 +14,7 @@
         <h2 class="text-xl font-semibold mb-4">Add Group</h2>
         
         <form id="groupForm" action="/group/create" method="POST">
-    <input type="text" id="id" name="id" value="group" hidden />
+            <input type="text" id="id" name="id" value="group" hidden />
             <input
                 type="text"
                 id="groupName"
@@ -24,6 +24,10 @@
                 required
             />
             <span id="error" class="text-red-500"></span>
+            
+            <!-- Message Area -->
+            <div id="message" class="mt-4"></div>
+            
             <div class="flex justify-end gap-2">
                 <a href='/'
                     class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
@@ -39,8 +43,11 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.js
+"></script>
+
 <script>
     $(document).ready(function () {
         $("#groupForm").validate({
@@ -69,11 +76,17 @@
                     type: 'POST',
                     data: $(this).serialize(),
                     success: function (response) {
-                        alert('Group created successfully! ✅');
+                        if(response.success){
+                            $('#message').html(`<p class="text-green-500">${response.message} ✅</p>`);
                         $('#groupForm')[0].reset();
+                        }else{
+                            $('#message').html(`<p class="text-red-500">${response.message} </p>`);
+
+                        }
+                        
                     },
                     error: function () {
-                        alert('❌ An error occurred while creating the group.');
+                        $('#message').html('<p class="text-red-500">❌ An error occurred while creating the group.</p>');
                     }
                 });
             }
