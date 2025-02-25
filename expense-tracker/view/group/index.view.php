@@ -80,13 +80,13 @@ https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.j
                             $('#message').html(`<p class="text-green-500">${response.message} ✅</p>`);
                         $('#groupForm')[0].reset();
                         }else{
-                            $('#message').html(`<p class="text-red-500">${response.message} </p>`);
+                            $('#message').html(`<p class="text-red-500">${response.message} ❌</p>`);
 
                         }
                         
                     },
                     error: function () {
-                        $('#message').html('<p class="text-red-500">❌ An error occurred while creating the group.</p>');
+                        $('#message').html('<p class="text-red-500"> An error occurred while creating the group.</p>');
                     }
                 });
             }

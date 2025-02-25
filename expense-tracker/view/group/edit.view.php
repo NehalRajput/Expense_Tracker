@@ -1,28 +1,28 @@
 <?php require base_path('view/partials/head.php'); ?>
 <?php require base_path('view/partials/banner.php'); ?>
 
-<!-- jQuery and Validation -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.js
+"></script>
+
 <script>
     $(document).ready(function () {
         $("#groupForm").validate({
             rules: {
-                groupName: {
+                group_name: {
                     required: true,
                     minlength: 3
                 }
             },
             messages: {
-                groupName: {
+                group_name: {
                     required: "Please enter a group name",
                     minlength: "Group name must be at least 3 characters long"
                 }
             },
             errorClass: "text-red-500",
-            errorPlacement: function (error, element) {
-                error.insertAfter(element);
-            }
+            errorElement: "span"
         });
 
         $('#groupForm').on('submit', function (e) {
@@ -30,20 +30,28 @@
 
             if ($(this).valid()) {
                 $.ajax({
-                    url: '/groups',
+                    url: '/group/create',
                     type: 'POST',
                     data: $(this).serialize(),
                     success: function (response) {
-                        $('#message').html('<div class="text-green-500 mt-4">Group updated successfully! ✅</div>');
+                        if(response.success){
+                            $('#message').html(`<p class="text-green-500">${response.message} ✅</p>`);
+                        $('#groupForm')[0].reset();
+                        }else{
+                            $('#message').html(`<p class="text-red-500">${response.message} ❌</p>`);
+
+                        }
+                        
                     },
                     error: function () {
-                        $('#message').html('<div class="text-red-500 mt-4">❌ An error occurred while updating the group.</div>');
+                        $('#message').html('<p class="text-red-500"> An error occurred while creating the group.</p>');
                     }
                 });
             }
         });
     });
 </script>
+
 
 <!-- Group Form -->
 <div class="flex justify-center mt-10">
