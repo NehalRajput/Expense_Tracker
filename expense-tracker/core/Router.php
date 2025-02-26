@@ -1,9 +1,7 @@
 <?php 
 namespace core;
 
-// use Core\middleware\Middleware;
 
-// use Core\middleware\Middleware;
  class Router{
     protected $routes = [];
 
