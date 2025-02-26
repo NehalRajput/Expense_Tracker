@@ -44,9 +44,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="
-https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.js
-"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -78,12 +76,13 @@ https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.j
                     success: function (response) {
                         if(response.success){
                             $('#message').html(`<p class="text-green-500">${response.message} ✅</p>`);
-                        $('#groupForm')[0].reset();
-                        }else{
+                            $('#groupForm')[0].reset();
+                            setTimeout(function() {
+                                window.location.href = '/';
+                            }, 1000); // Redirect to homepage after 3 seconds
+                        } else {
                             $('#message').html(`<p class="text-red-500">${response.message} ❌</p>`);
-
                         }
-                        
                     },
                     error: function () {
                         $('#message').html('<p class="text-red-500"> An error occurred while creating the group.</p>');

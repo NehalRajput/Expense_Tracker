@@ -51,9 +51,13 @@
                     if (response.success) {
                         $("#expenseForm")[0].reset();
                         $("#expense_date").val(today);
-                        $("#message").html('<p class="text-green-500">' + response.message + '</p>');
+                        $("#message").html('<p class="text-green-500">' + response.message + ' ✅</p>');
+                        
+                        setTimeout(() => {
+                            window.location.href = '/';
+                        }, 1000);
                     } else {
-                        $("#message").html('<p class="text-red-500">' + response.message + '</p>');
+                        $("#message").html('<p class="text-red-500">' + response.message + ' ❌</p>');
                     }
                 },
                 error: function () {
