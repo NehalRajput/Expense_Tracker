@@ -2,9 +2,7 @@
 <?php require base_path('view/partials/banner.php'); ?>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="
-https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.js
-"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -30,28 +28,29 @@ https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.j
 
             if ($(this).valid()) {
                 $.ajax({
-                    url: '/group/create',
+                    url: '/groups',
                     type: 'POST',
                     data: $(this).serialize(),
+                    dataType: 'json',
                     success: function (response) {
-                        if(response.success){
+                      //  console.log(response);
+                        if (response.success) {
                             $('#message').html(`<p class="text-green-500">${response.message} ✅</p>`);
-                        $('#groupForm')[0].reset();
-                        }else{
+                            setTimeout(function() {
+                                window.location.href = '/';
+                            }, 1000);
+                        } else {
                             $('#message').html(`<p class="text-red-500">${response.message} ❌</p>`);
-
                         }
-                        
                     },
                     error: function () {
-                        $('#message').html('<p class="text-red-500"> An error occurred while creating the group.</p>');
+                        $('#message').html('<p class="text-red-500">An error occurred while updating the group.</p>');
                     }
                 });
             }
         });
     });
 </script>
-
 
 <!-- Group Form -->
 <div class="flex justify-center mt-10">
@@ -64,10 +63,10 @@ https://cdn.jsdelivr.net/npm/jquery-validation@1.21.0/dist/jquery.validate.min.j
             <input
                 type="text"
                 id="groupName"
-                name="groupName"
+                name="group_name"
                 class="w-full p-3 border border-gray-500 rounded-lg focus:ring-2 focus:ring-gray-400 mb-4 bg-gray-800 text-white"
                 placeholder="Enter Group Name"
-                value="<?= $group['group_name'] ?>"
+                value="<?= htmlspecialchars($group['group_name']) ?>"
                 required
             />
             
